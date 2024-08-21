@@ -29,12 +29,14 @@ body{
 .container{
     border: 2px solid var(--gray);
     border-radius: 15px;
-    width: 400px;
-    padding: 15px 30px;
+    width: 430px;
+    min-height: 430px;
+    padding: 23px 30px;
     text-align: center;
 }
 
 h1{
+    margin-top: 0;
     margin-bottom: 14px;
 }
 
@@ -55,15 +57,18 @@ h1{
     top: 0;
     left: 50%;
     right: 50%;
-    padding: 7px;
+    padding: 7px 9px;
+    padding-right: 39px;
     visibility: hidden;
-    transition:  left .5s, right .5s, width .5s,opacity .5s,  visibility .5s;
+    transition:  left .5s, right .5s, width .5s,  visibility .5s;
 }
 .todo-input:focus{
     outline: none;
 }
 
 .add-button{
+    display: grid;
+    place-content: center;
     background-color: var(--primary-color);
     border: none;
     border-radius: 50%;
@@ -95,10 +100,12 @@ h1{
     transform: translateX(0%);
 }
 
-
-
 .filters{
-    padding: 16px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 14px 0;
 }
 
 .filters button{
@@ -116,22 +123,108 @@ h1{
     color: var(--primary-color-light);
 }
 
-.todos-container{
-    padding: 22px;
+.todos:last-child{
+    margin: 0;
+}
+
+.todo{
+    border: 2px solid var(--gray);
+    border-radius: 19px;
+    font-size: .9rem;
+    list-style: none;
+    min-height: 2.7em;
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 7px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.todo input[type="checkbox"]{
+    visibility: hidden;
+}
+
+.todo label{
+    min-width: 25px;
+    height: 25px;
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+}
+
+.todo label:has(input[type="checkbox"]:checked)::before {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.todo label:has(input[type="checkbox"]:checked)::after {
+    content: "✔";
+    color: #fff;
+    border-radius: 50%;
+    border-color: #fff;
+    display: grid;
+    place-content: center;
+    position: absolute;
+    inset: 0;
+    background-color: #4CAF50;
+}
+
+.todo span{
+    width: 100%;
+    text-align: left;
+    font-size: .9rem;
+}
+
+.todo span[contenteditable="true"]:focus{
+    outline: none;
+    font-weight: 500;
+}
+
+label:has(input[type="checkbox"]:checked) + span{
+    text-decoration: line-through;
+}
+
+.todo__actions{
+    display: flex;
+    gap: 7px;
+}
+.todo button {
+    display: grid;
+    place-content: center;
+    font-size: 1.4em;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.todo__edit{
+    color: #228B22;
+}
+
+.todo__remove{
+    color: #A8102E;
 }
 
 .tasks-img{
     max-width: 100%;
     height: 13em;
+    display: block;
+    margin: auto;
 }
 
 .no-tasks{
     font-size: 1.2rem;
-    margin-top: 10px;
-    display: block;
+    line-height: 2rem;
 }
 
-
+.message{
+    display: block;
+    margin-top: 30px;
+}
 
 
 
