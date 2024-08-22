@@ -29,9 +29,10 @@ body{
 .container{
     border: 2px solid var(--gray);
     border-radius: 15px;
-    width: 430px;
+    width: 390px;
+    max-width: 100%;
     min-height: 430px;
-    padding: 23px 30px;
+    padding: 23px 24px;
     text-align: center;
 }
 
@@ -39,6 +40,7 @@ h1{
     margin-top: 0;
     margin-bottom: 14px;
 }
+
 
 .input-container{
     position: relative;
@@ -173,11 +175,14 @@ h1{
     background-color: #4CAF50;
 }
 
-.todo span{
+.todo .todo__span{
     width: 100%;
-    text-align: left;
     font-size: .9rem;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    text-align: left;
 }
+
 
 .todo span[contenteditable="true"]:focus{
     outline: none;

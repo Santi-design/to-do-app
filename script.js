@@ -7,7 +7,7 @@ const $filters = document.querySelector('.filters');
 const $addInput = document.getElementById('todo-input');
 
 
-const todos = JSON.parse(localStorage.getItem("todos")) || [];
+let todos = JSON.parse(localStorage.getItem("todos")) || [];
 
 document.addEventListener("DOMContentLoaded", showTodos());
 
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", showTodos());
 $addButton.addEventListener("click", ()=>{
     if(!$inputContainer.classList.contains('input-container--active')) {
         $inputContainer.classList.add('input-container--active');
-        setInterval(()=>$addInput.focus(), 500);
+        setTimeout(()=>$addInput.focus(), 500);
         return;
     }
     todoName = $addInput.value.trim();
@@ -38,8 +38,9 @@ $filters.addEventListener("click", e=>{
     if(e.target.classList.contains("filters__complete")) showTodos('complete');
     if(e.target.classList.contains("filters__incomplete")) showTodos('pending');
     if(e.target.classList.contains("filters__delete-all")){
-        localStorage.setItem("todos", []);
-        showTodos()
+        localStorage.removeItem('todos');
+        todos = [];
+        showTodos();
     };
 })
 
@@ -52,17 +53,18 @@ function addTodo(todo){
 }
 
 function showTodos(filter){
-    if(todos.length == 0) {
+    let getTodos = todos.map(todo=> {
+        if(todo.status == filter) return todo;
+        });
+    console.log(getTodos);
+    
+    if(todos.length == 0 || getTodos[0] == 'undefined') {
         $todoList.innerHTML = '';
         $noTaskMessage.style.display = "block";
         return;
     }
 
-    let getTodos; 
-    if(filter) getTodos = todos.map(todo=> {
-        if(todo.status == filter) return todo;
-        })
-        .map(getTodoHTML).join('');
+    if(filter) getTodos = getTodos.map(getTodoHTML).join('');
     else getTodos = todos.map(getTodoHTML).join('')
     
     $todoList.innerHTML = getTodos;
@@ -70,13 +72,14 @@ function showTodos(filter){
 }
 
 function getTodoHTML(todo, index){
+    console.log(typeof todo);
     let checked = todo.status == "complete" ? "checked" : "";
     return `
         <li class="todo">
             <label for="${index}">
                 <input type="checkbox" id="${index}" ${checked} onchange="changeStatus(event)">
             </label>
-            <span class="todo-${index}">${todo.name}</span>
+            <span class="todo__span todo-${index}">${todo.name}</span>
             <div class="todo__actions">
                 <button class="todo__edit"><i class="fa-solid fa-pen-to-square" onclick="editTodo(${index})"></i></button>
                 <button class="todo__remove"><i class="fa-solid fa-trash remove" onclick="removeTodo(${index})"></i></button>
@@ -102,6 +105,11 @@ function editTodo(index){
     const end = $todoSpan.textContent.length
     createSelectionRange($todoSpan, end, end);
 
+    $todoSpan.addEventListener("keydown", e=>{
+        if(e.key == "Enter"){
+            $todoSpan.blur();
+        }
+    });
     $todoSpan.addEventListener("blur", ()=>{
         $todoSpan.contentEditable = false;
         todos[index].name = $todoSpan.innerText;
