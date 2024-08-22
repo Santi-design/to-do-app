@@ -35,13 +35,22 @@ $addInput.addEventListener("keydown", e=>{
 })
 
 $filters.addEventListener("click", e=>{
-    if(e.target.classList.contains("filters__complete")) showTodos('complete');
-    if(e.target.classList.contains("filters__incomplete")) showTodos('pending');
-    if(e.target.classList.contains("filters__delete-all")){
-        localStorage.removeItem('todos');
-        todos = [];
-        showTodos();
-    };
+    if(!e.target.classList.contains("filters__delete-all")){
+        if(e.target.classList.contains('filter--active')){
+            e.target.classList.remove('filter--active');
+            showTodos();
+            return;
+        }
+        if(document.querySelector('.filter--active')){
+            document.querySelector('.filter--active').classList.remove('filter--active');
+        }
+        showTodos(e.target.id);
+        e.target.classList.add('filter--active');
+        return;  
+    } 
+    localStorage.removeItem('todos');
+    todos = [];
+    showTodos();
 })
 
 
@@ -53,12 +62,11 @@ function addTodo(todo){
 }
 
 function showTodos(filter){
-    let getTodos = todos.map(todo=> {
-        if(todo.status == filter) return todo;
-        });
-    console.log(getTodos);
+    let getTodos = filter ? todos.filter(todo=> {
+        return todo.status == filter;
+        }) : undefined;
     
-    if(todos.length == 0 || getTodos[0] == 'undefined') {
+    if(todos.length == 0 || (filter && getTodos === undefined)) {
         $todoList.innerHTML = '';
         $noTaskMessage.style.display = "block";
         return;
@@ -72,7 +80,6 @@ function showTodos(filter){
 }
 
 function getTodoHTML(todo, index){
-    console.log(typeof todo);
     let checked = todo.status == "complete" ? "checked" : "";
     return `
         <li class="todo">
@@ -97,7 +104,6 @@ function changeStatus(event){
 
 function editTodo(index){
     const $todoSpan = document.querySelector('.todo-' + index);
-    console.log($todoSpan);
     
     $todoSpan.contentEditable = true;
     $todoSpan.focus();

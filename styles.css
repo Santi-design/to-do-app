@@ -30,7 +30,8 @@ body{
     border: 2px solid var(--gray);
     border-radius: 15px;
     width: 390px;
-    max-width: 100%;
+    max-width: 90%;
+    margin: auto;
     min-height: 430px;
     padding: 23px 24px;
     text-align: center;
@@ -44,7 +45,7 @@ h1{
 
 .input-container{
     position: relative;
-    width: 300px;
+    width: 85%;
     height: 2.5em;
     margin: auto;
 }
@@ -117,10 +118,15 @@ h1{
     padding: 5px 11px;
     font-size: .9rem;
     color: var(--dark-gray);
+    cursor: pointer;
 }
 
 .filters button:hover{
-    cursor: pointer;
+    border-color: var(--primary-color-light);
+    color: var(--primary-color-light);
+}
+
+.filters .filter--active{
     border-color: var(--primary-color-light);
     color: var(--primary-color-light);
 }
